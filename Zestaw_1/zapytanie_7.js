@@ -1,0 +1,1 @@
+db.getCollection("nbd").deleteMany({"height":{$gt:"190"}});
