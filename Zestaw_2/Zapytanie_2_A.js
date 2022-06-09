@@ -1,0 +1,1 @@
+db.getCollection("nbd").aggregate([{ $unwind: "$credit" } ,{ $group: { _id: "$credit.currency", total: { $sum: { $toDecimal: "$credit.balance" } } } },{ $sort: {  _id: 1 }}]);

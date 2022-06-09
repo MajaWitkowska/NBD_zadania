@@ -1,0 +1,1 @@
+db.getCollection("nbd").find({$and:[{"nationality": "Germany"},{"sex":"Male"}]});
