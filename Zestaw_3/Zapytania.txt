@@ -1,0 +1,41 @@
+1. match (m:Movie) return m
+2. match (h:Person {name:"Hugo Weaving"})-[:ACTED_IN]->(m) RETURN m, h;
+3. match (h:Person {name:"Hugo Weaving"})-[:ACTED_IN]->(m)<-[:DIRECTED]-(r:Person) RETURN  r;
+4. match (h:Person {name:"Hugo Weaving"})-[:ACTED_IN]->(m)<-[:ACTED_IN]-(a:Person) WHERE a <> h RETURN  a;
+5. match (m:Movie {title: "The Matrix"})<-[:ACTED_IN]-(actors)-[:ACTED_IN]->(movies) RETURN movies;
+6. match (a:Person)-[r:ACTED_IN]->(movie) WITH a, count(r) AS movies RETURN a, movies
+7. match (p:Person)-[:WROTE]->(m:Movie) WITH p, m MATCH (p)-[:DIRECTED]->(m) RETURN p,m
+8. match (h: Person {name: "Hugo Weaving"})-[:ACTED_IN]->(m)<-[:ACTED_IN]-(k: Person {name: "Keanu Reeves"}) RETURN m, h, k
+
+9. create (m:Movie {released: 2011, tagline: "Steve Rogers, a rejected military soldier, transforms into Captain America after taking a dose of a Super-Soldier serum. But being Captain America comes at a price as he attempts to take down a war monger and a terrorist organization.", title: "Captain America: The First Avenger"})
+create (p:Person {name: "Chris Evans", born: 1981 })
+create (p:Person {name: "Hayley Atwell", born: 1982 })
+create (p:Person {name: "Joe Johnston", born: 1950 })
+create (p:Person {name: "Christopher Markus", born: 1970 })
+create (p:Person {name: "Stephen McFeely", born: 1969 })
+
+match (m:Movie),(p:Person)
+WHERE m.title = "Captain America: The First Avenger" AND p.name = "Chris Evans"
+CREATE (p)-[r:ACTED_IN]->(m)
+
+match (m:Movie),(p:Person)
+WHERE m.title = "Captain America: The First Avenger" AND p.name = "Hayley Atwell"
+CREATE (p)-[r:ACTED_IN]->(m)
+
+match (m:Movie),(p:Person)
+WHERE m.title = "Captain America: The First Avenger" AND p.name = "Joe Johnston"
+CREATE (p)-[r:DIRECTED]->(m)
+
+match (m:Movie),(p:Person)
+WHERE m.title = "Captain America: The First Avenger" AND p.name = "Christopher Markus"
+CREATE (p)-[r:WROTE]->(m)
+
+match (m:Movie),(p:Person)
+WHERE m.title = "Captain America: The First Avenger" AND p.name = "Stephen McFeely"
+CREATE (p)-[r:WROTE]->(m)
+
+match  (m:Movie {title: "Captain America: The First Avenger"}) RETURN m
+
+
+
+
