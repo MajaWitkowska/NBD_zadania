@@ -1,8 +1,8 @@
 1. match (m:Movie) return m
-2. match (h:Person {name:"Hugo Weaving"})-[:ACTED_IN]->(m) RETURN m, h;
-3. match (h:Person {name:"Hugo Weaving"})-[:ACTED_IN]->(m)<-[:DIRECTED]-(r:Person) RETURN  r;
-4. match (h:Person {name:"Hugo Weaving"})-[:ACTED_IN]->(m)<-[:ACTED_IN]-(a:Person) WHERE a <> h RETURN  a;
-5. match (m:Movie {title: "The Matrix"})<-[:ACTED_IN]-(actors)-[:ACTED_IN]->(movies) RETURN movies;
+2. match (h:Person {name:"Hugo Weaving"})-[:ACTED_IN]->(m) RETURN m, h
+3. match (h:Person {name:"Hugo Weaving"})-[:ACTED_IN]->(m)<-[:DIRECTED]-(r:Person) RETURN  r
+4. match (h:Person {name:"Hugo Weaving"})-[:ACTED_IN]->(m)<-[:ACTED_IN]-(a:Person) WHERE a <> h RETURN  a
+5. match (m:Movie {title: "The Matrix"})<-[:ACTED_IN]-(actors)-[:ACTED_IN]->(movies) RETURN movies
 6. match (a:Person)-[r:ACTED_IN]->(movie) WITH a, count(r) AS movies RETURN a, movies
 7. match (p:Person)-[:WROTE]->(m:Movie) WITH p, m MATCH (p)-[:DIRECTED]->(m) RETURN p,m
 8. match (h: Person {name: "Hugo Weaving"})-[:ACTED_IN]->(m)<-[:ACTED_IN]-(k: Person {name: "Keanu Reeves"}) RETURN m, h, k
