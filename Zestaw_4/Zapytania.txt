@@ -1,0 +1,52 @@
+1. match (source:town {name: "Darjeeling"}), (target:peak {name: "Sandakphu"}) MATCH p = allShortestPaths((source)-[*]->(target)) RETURN p
+
+2. match (from:town{name:'Darjeeling'}),(to:peak{name:'Sandakphu'}), path= allShortestPaths((from)-[*]-(to)) where all(r IN relationships(path) WHERE r.winter="true") return path
+
+3. match p = (source:town {name: "Darjeeling"})-[r*]->(target:peak {name: "Sandakphu"})
+UNWIND r as rel
+WITH p, COLLECT(rel.distance) AS distances
+WITH p, reduce(acc = 0, d in distances | acc + d) as distance
+RETURN p, distance
+ORDER BY distance ASC
+
+4. match p = (source:town {name: "Darjeeling"})-[r:twowheeler*]->(target)
+WHERE ALL (r IN relationships(p) WHERE r.summer = "true")
+RETURN target #brak wyników, ale jest to spodziewany wynik, ponieważ kiedy prześlemy zapytanie "MATCH p=()-[r:twowheeler]->() RETURN p" możemy zobaczyć,
+że na grafie przedstawiającym taką formę przejazdu nie ma tego miasta.
+
+5. match (a:Airport {)<-[:ORIGIN]-(f:Flight)
+WITH a, count(f) as flights
+RETURN a, flights
+ORDER BY flights ASC
+
+6. match p = (origin:Airport { name:"LAX" })<-[r1:ORIGIN]-(:Flight)-[r2:ORIGIN|DESTINATION*..10]->(destination:Airport)
+WHERE REDUCE(acc = 0, n IN [x IN NODES(p) WHERE 'Flight' IN LABELS(x)] |
+  acc + [(n)<-[:ASSIGN]-(ticket) | ticket.price][0]
+  ) < 3000
+RETURN p
+
+7. MATCH p = (origin:Airport { name:"LAX" })<-[r1:ORIGIN]-(:Flight)-[r2:ORIGIN|DESTINATION*..10]->(destination:Airport {name: "DAY"})
+WITH p, REDUCE(acc = 0, n IN [x IN NODES(p) WHERE 'Flight' IN LABELS(x)] |
+  acc + [(n)<-[:ASSIGN]-(ticket) | ticket.price][0]
+  ) as price
+RETURN p, price
+ORDER BY price desc
+#brak wyników - nie ma nic do wyeksportowania
+
+8. match p = (origin:Airport { name:"LAX" })<-[r1:ORIGIN]-(:Flight)-[r2:ORIGIN|DESTINATION*..10]->(destination:Airport {name: "DAY"})
+WITH p, REDUCE(acc = 0, n IN [x IN NODES(p) WHERE 'Flight' IN LABELS(x)] |
+  acc + [(n)<-[:ASSIGN]-(ticket) | ticket.price][0]
+  ) as price
+RETURN p, price
+ORDER BY price asc LIMIT 1
+#brak wyników - nie ma nic do wyeksportowania
+
+9. match (a:Airport)<-[:ORIGIN]-(f:Flight) match (b:Airport)<-[:DESTINATION]-(f:Flight) UNWIND [a, b] as c return f.airline, count(distinct c.name) order by count(distinct c.name) desc
+
+10. match p = (a1:Airport)<-[r1:ORIGIN]-(f1:Flight)-[r2:DESTINATION]->(a2:Airport)<-[r3:ORIGIN]-(f2:Flight)-[r4:DESTINATION]->(a3:Airport)
+WHERE not(a1=a2) AND not(a1=a3) AND not(a2=a3)
+WITH p, REDUCE(acc = 0, n IN [x IN NODES(p) WHERE 'Flight' IN LABELS(x)] |
+  acc + [(n)<-[:ASSIGN]-(ticket {class: 'economy'}) | ticket.price][0]
+  ) as price
+RETURN p, price
+ORDER BY price asc LIMIT 1
