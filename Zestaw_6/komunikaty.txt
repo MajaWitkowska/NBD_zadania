@@ -1,0 +1,16 @@
+Etap wstawiania dokumentu do bazy, serwer zwrócił odpowiedź:  204
+--------------------------------------------------
+Pobieranie dokumentu z bazy...
+Odpowiedź z serwera:  200
+Wynik pobrania:  {'name' :'Veronica'}
+--------------------------------------------------
+Po modyfikacji dokumentu otrzymano następującą odpowiedź z serwera:  204
+--------------------------------------------------
+Pobieranie dokumentu z bazy po modyfikacji...
+Otrzymano następującą odpowiedź z serwera:  200
+Wynik pobrania dokumentu po modyfikacji:  {'name' :'Veronica', 'second_name':'Hudgens', 'height': 180, 'weight':67}
+--------------------------------------------------
+Usunięcie dokumentu z bazy - otrzymano następującą odpowiedź z serwera:  204
+--------------------------------------------------
+Próba pobrania dokumentu, który został już usunięty - otrzymano następującą odpowiedź z serwera:  404
+Wynik próby pobrania usuniętego dokumentu:  not found
