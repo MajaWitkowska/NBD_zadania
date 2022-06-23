@@ -1,0 +1,12 @@
+HTTP/1.1 200 OK
+X-Riak-Vclock: a85hYGBgzGDKBVI8+xkWvn+Q/nAVRCiRMY+V4YuN5h2+LAA=
+Vary: Accept-Encoding
+Server: MochiWeb/1.1 WebMachine/1.10.9 (cafe not found)
+Link: </buckets/s26353>; rel="up"
+Last-Modified: Thu, 23 Jun 2022 19:37:24 GMT
+ETag: "2hybIIJdN8X1O9deoKmQaF"
+Date: Thu, 23 Jun 2022 19:40:35 GMT
+Content-Type: application/json
+Content-Length: 76
+
+{'name' : 'Allison', 'second_name':'West', 'height_cm': 165, 'weight_kg':50}
